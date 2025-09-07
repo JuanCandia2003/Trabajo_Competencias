@@ -20,7 +20,7 @@ public class Banco {
     public Banco() {
         caja = new ColaAtencion();
         plataforma = new ColaAtencion();
-        
+
         // --- INICIALIZAR PUESTOS DE ATENCIÓN ---
         puestosCaja = new ArrayList<>();
         for (int i = 1; i <= NUMERO_CAJAS; i++) {
@@ -51,13 +51,15 @@ public class Banco {
         Cliente c = caja.desencolar();
         if (c != null) {
             atendidosCaja++;
-            if (c.preferencial) preferencialesCaja++;
+            if (c.preferencial)
+                preferencialesCaja++;
             puestoDisponible.setOcupado(true);
-            return "Atendiendo en " + puestoDisponible.getNombre() + ": " + "[T-" + c.numero +"] "+ c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)");
+            return "Atendiendo en " + puestoDisponible.getNombre() + ": " + "[T-" + c.numero + "] " + c.nombre +
+                    (c.preferencial ? " (Preferencial)" : " (Corriente)");
         }
         return "No hay clientes en Caja.";
     }
+
     // --- METODO MODIFICADO PARA ASIGNAR UN PUESTO ---
     public String atenderPlataforma() {
         PuestoAtencion puestoDisponible = obtenerPuestoDisponible(puestosPlataforma);
@@ -67,10 +69,11 @@ public class Banco {
         Cliente c = plataforma.desencolar();
         if (c != null) {
             atendidosPlataforma++;
-            if (c.preferencial) preferencialesPlataforma++;
+            if (c.preferencial)
+                preferencialesPlataforma++;
             puestoDisponible.setOcupado(true);
-            return "Atendiendo en " + puestoDisponible.getNombre() + ": " + "[T-" + c.numero +"] "+ c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)");
+            return "Atendiendo en " + puestoDisponible.getNombre() + ": " + "[T-" + c.numero + "] " + c.nombre +
+                    (c.preferencial ? " (Preferencial)" : " (Corriente)");
         }
         return "No hay clientes en Plataforma.";
     }
@@ -104,16 +107,31 @@ public class Banco {
         return "Error: No se pudo realizar la transferencia. Verifique el número de ticket y las colas de origen y destino.";
     }
 
+    // --- NUEVO MÉTODO PARA FINALIZAR LA ATENCIÓN Y LIBERAR PUESTOS ---
+    public String finalizarAtencion(String tipoPuesto, int numeroPuesto) {
+        List<PuestoAtencion> puestos = tipoPuesto.equalsIgnoreCase("caja") ? puestosCaja : puestosPlataforma;
+        for (PuestoAtencion puesto : puestos) {
+            if (puesto.getNombre().equalsIgnoreCase(tipoPuesto + " " + numeroPuesto) && puesto.isOcupado()) {
+                puesto.setOcupado(false);
+                return "El cliente ha sido atendido. La " + puesto.getNombre() + " está ahora libre.";
+            }
+        }
+        return "No se encontró el puesto o ya estaba libre.";
+    }
+
     public void mostrarColas() {
         System.out.println("Cola de Caja:");
         caja.mostrarCola();
         System.out.println("\nCola de Plataforma:");
         plataforma.mostrarCola();
     }
+
     public void imprimirResumen() {
         System.out.println("\n Resumen del día:");
-        System.out.println("- Caja atendió " + atendidosCaja + " clientes (" + preferencialesCaja + " preferenciales).");
-        System.out.println("- Plataforma atendió " + atendidosPlataforma + " clientes (" + preferencialesPlataforma + " preferenciales).");
+        System.out
+                .println("- Caja atendió " + atendidosCaja + " clientes (" + preferencialesCaja + " preferenciales).");
+        System.out.println("- Plataforma atendió " + atendidosPlataforma + " clientes (" + preferencialesPlataforma
+                + " preferenciales).");
         System.out.println("════════════════════════════════════");
     }
 
