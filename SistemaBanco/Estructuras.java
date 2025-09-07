@@ -20,12 +20,12 @@ class Cliente {
     }
 }
 
-// Implementación manual de una cola con prioridad (preferencial y corriente)
+// Implementación la cola (preferencial y corriente)
 class ColaAtencion {
-    private Nodo frentePref;   // frente de preferenciales
-    private Nodo finPref;      // fin de preferenciales
-    private Nodo frenteCorr;   // frente de corrientes
-    private Nodo finCorr;      // fin de corrientes
+    private Nodo frentePref;
+    private Nodo finPref;   
+    private Nodo frenteCorr;
+    private Nodo finCorr;      
 
     public ColaAtencion() {
         frentePref = finPref = null;
@@ -35,14 +35,14 @@ class ColaAtencion {
     // Agregar cliente
     public void encolar(Cliente cliente) {
         Nodo nuevo = new Nodo(cliente);
-        if (cliente.preferencial) {
+        if (cliente.preferencial) { //Si el cliente es preferencial va primero 
             if (finPref == null) {
                 frentePref = finPref = nuevo;
             } else {
                 finPref.siguiente = nuevo;
                 finPref = nuevo;
             }
-        } else {
+        } else { // si no es preferencial entonces procede a agregarlo a la fila
             if (finCorr == null) {
                 frenteCorr = finCorr = nuevo;
             } else {
@@ -54,12 +54,12 @@ class ColaAtencion {
 
     // Atender cliente (preferenciales primero)
     public Cliente desencolar() {
-        if (frentePref != null) {
+        if (frentePref != null) { //revisa si hay clientes prefetenciales
             Cliente c = frentePref.cliente;
             frentePref = frentePref.siguiente;
             if (frentePref == null) finPref = null;
             return c;
-        } else if (frenteCorr != null) {
+        } else if (frenteCorr != null) { // empieza a atender a los clientes corrientes
             Cliente c = frenteCorr.cliente;
             frenteCorr = frenteCorr.siguiente;
             if (frenteCorr == null) finCorr = null;
@@ -74,7 +74,7 @@ class ColaAtencion {
     }
 }
 
-// Clase Banco
+// Crea el Banco
 class Banco {
     private ColaAtencion caja;
     private ColaAtencion plataforma;
@@ -96,7 +96,7 @@ class Banco {
         Cliente c = caja.desencolar();
         if (c != null) {
             return "Atendiendo en Caja: " + c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)");
+                   (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
         }
         return "No hay clientes en Caja.";
     }
@@ -105,7 +105,7 @@ class Banco {
         Cliente c = plataforma.desencolar();
         if (c != null) {
             return "Atendiendo en Plataforma: " + c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)");
+                   (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
         }
         return "No hay clientes en Plataforma.";
     }
