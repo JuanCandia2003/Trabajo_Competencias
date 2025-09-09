@@ -16,8 +16,9 @@ public class Main {
             System.out.println("6. Atender cliente en Plataforma");
             System.out.println("7. Atender cliente en Credito");
             System.out.println("8. Atender cliente en Informaciones");
-            System.out.println("9. Mostrar colas");
-            System.out.println("10. Resumen del dia");
+            System.out.println("9. Liberar puesto de atención");
+            System.out.println("10. Mostrar colas");
+            System.out.println("11. Resumen del dia");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
