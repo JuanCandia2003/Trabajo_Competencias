@@ -29,7 +29,9 @@ public class Main {
                     String nombreCaja = sc.nextLine();
                     System.out.print("¿Es preferencial? (s/n): ");
                     boolean prefCaja = sc.nextLine().equalsIgnoreCase("s");
-                    banco.agregarClienteCaja(new Cliente(nombreCaja, prefCaja));
+                    System.out.println("Seleccione caja: (1 o 2)");
+                    int opcionCaja = sc.nextInt();
+                    banco.agregarClienteCaja(new Cliente(nombreCaja, prefCaja), opcionCaja);
                     break;
 
 
@@ -57,7 +59,9 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println(banco.atenderCaja());
+                    System.out.println("Seleccione caja: (1 o 2)");
+                    int opCaja = sc.nextInt();
+                    banco.atenderCaja(opCaja);
                     break;
 
                 case 6:
@@ -70,9 +74,18 @@ public class Main {
                     System.out.println(banco.atenderInformaciones());
                     break;
                 case 9:
-                    banco.mostrarColas();
+                    System.out.println("\n--- Finalizar Atención ---");
+                    System.out.print("Ingrese el tipo de puesto a liberar (caja/plataforma/creditos/informaciones): ");
+                    String tipoPuesto = sc.nextLine();
+                    System.out.print("Ingrese el número del puesto: ");
+                    int numeroPuesto = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(banco.finalizarAtencion(tipoPuesto, numeroPuesto));
                     break;
                 case 10:
+                    banco.mostrarColas();
+                    break;
+                case 11:
                     banco.imprimirResumen();
                     break;
 
