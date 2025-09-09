@@ -1,9 +1,9 @@
 class Cliente {
     
-    public static int contadorTickets = 1;
-    public int numero;
     public String nombre;
     public boolean preferencial;
+    public static int contadorTickets = 1;
+    public int numero;
 
     public Cliente(String nombre, boolean preferencial) {
         this.nombre = nombre;
