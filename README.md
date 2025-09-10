@@ -16,6 +16,7 @@
   - [2. Desarrollo del proyecto](#2-desarrollo-del-proyecto)
   - [2.1. Estructura y convencion de nombres](#21-estructura-y-convencion-de-nombres)
   - [2.2. Diagrama de clases](#22-diagrama-de-clases)
+  - [2.3. Diagrama de flujo](#23-diagrama-de-flujo)
 
 ## 1. Configuracion de entorno
 ## VS Code, Git, GitHub, Java
@@ -308,4 +309,37 @@ direction TB
     Nodo --> Cliente : contiene
     Main ..> Banco : usa
 
+```
+
+## 2.3. Diagrama de flujo 
+```mermaid
+flowchart TD
+
+A[Inicio] --> B{Operación}
+B -->|Encolar| C{Cliente es preferencial?}
+C -->|Sí| D[Agregar a finPref]
+C -->|No| E[Agregar a finCorr]
+D --> F[Cliente en cola]
+E --> F[Cliente en cola]
+
+B -->|Desencolar| G{frentePref no es null?}
+G -->|Sí| H[Atender cliente preferencial]
+G -->|No| I{frenteCorr no es null?}
+I -->|Sí| J[Atender cliente corriente]
+I -->|No| K[Cola vacía]
+H --> L[Actualizar frentePref]
+J --> M[Actualizar frenteCorr]
+K --> F
+L --> F
+M --> F
+
+B -->|MostrarCola| N[Recorrer frentePref y frenteCorr con recursividad]
+N --> F
+
+B -->|OrdenarClientes| O[Convertir colas a lista con aLista]
+O --> P[Aplicar QuickSort en lista]
+P --> Q[Lista ordenada]
+Q --> F
+
+F --> R[Fin]
 ```
