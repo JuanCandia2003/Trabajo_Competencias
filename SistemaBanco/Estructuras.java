@@ -1,4 +1,6 @@
 // Implementación la cola (preferencial y corriente
+import java.util.ArrayList;
+import java.util.List;
 class ColaAtencion {
     private Nodo frentePref;
     private Nodo finPref;   
@@ -52,24 +54,79 @@ class ColaAtencion {
     }
 
 
- public void mostrarCola() {
-        if (estaVacia()) {
-            System.out.println("La cola está vacía.");
-            return;
-        }
+    public void mostrarCola() {
+    System.out.println("Clientes preferenciales:");
+    mostrarColaRecursiva(frentePref);
+    System.out.println("Clientes corrientes:");
+    mostrarColaRecursiva(frenteCorr);
+
+}
+    public void mostrarColaRecursiva(Nodo nodo) {
+    if (nodo == null) return; // caso base
+    System.out.println(nodo.cliente.nombre + " [Ficha: " + nodo.cliente.numero + "]" +
+                       (nodo.cliente.preferencial ? " (Preferencial)" : " (Corriente)"));
+    mostrarColaRecursiva(nodo.siguiente); // llamada recursiva
+}
+
+    public List<Cliente> aLista() {
+    List<Cliente> lista = new ArrayList<>();
         Nodo actual = frentePref;
         while (actual != null) {
-            String sufijo = actual.cliente.preferencial ? "P" : "";
-            System.out.print("[T-" + actual.cliente.numero + sufijo + "] " + actual.cliente.nombre + " -> ");
+            lista.add(actual.cliente);
             actual = actual.siguiente;
         }
         actual = frenteCorr;
         while (actual != null) {
-            String sufijo = actual.cliente.preferencial ? "P" : "";
-            System.out.print("[T-" + actual.cliente.numero + sufijo + "] " + actual.cliente.nombre + " -> ");
+            lista.add(actual.cliente);
             actual = actual.siguiente;
+        }
+        return lista;
+    }
+
+    // QuickSort aplicado a la lista de clientes
+    public List<Cliente> ordenarClientes() {
+    List<Cliente> lista = aLista();
+    quickSort(lista, 0, lista.size() - 1);
+    return lista;
+    }
+
+    private void quickSort(List<Cliente> lista, int low, int high) {
+        if (low < high) {
+            int pi = partition(lista, low, high);
+            quickSort(lista, low, pi - 1);
+            quickSort(lista, pi + 1, high);
         }
     }
 
+    private int partition(List<Cliente> lista, int low, int high) {
+        String pivot = lista.get(high).getNombre();
+        int i = (low - 1);
 
+        for (int j = low; j < high; j++) {
+            if (lista.get(j).getNombre().compareToIgnoreCase(pivot) <= 0) {
+                i++;
+                Cliente temp = lista.get(i);
+                lista.set(i, lista.get(j));
+                lista.set(j, temp);
+            }
+        }
+
+        Cliente temp = lista.get(i + 1);
+        lista.set(i + 1, lista.get(high));
+        lista.set(high, temp);
+
+        return i + 1;
+    }
+
+    // Mostrar clientes ordenados
+    public void mostrarOrdenados() {
+        List<Cliente> lista = ordenarClientes();
+        for (Cliente c : lista) {
+            System.out.println(c.getNombre() + " [Ficha: " + c.numero + "]" +
+                               (c.preferencial ? " (Preferencial)" : " (Corriente)"));
+        }
+    }
 }
+
+ 
+

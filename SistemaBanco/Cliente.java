@@ -10,5 +10,9 @@ class Cliente {
         this.preferencial = preferencial;
         this.numero = contadorTickets++;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
 }
 

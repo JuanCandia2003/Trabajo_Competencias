@@ -5,7 +5,7 @@ public class Main {
         Banco banco = new Banco();
         Scanner sc = new Scanner(System.in);
         int opcion;
-        
+
         do {
             System.out.println("\n=== Sistema de Fichero del Banco ===");
             System.out.println("1. Agregar cliente a Caja");
@@ -17,8 +17,9 @@ public class Main {
             System.out.println("7. Atender cliente en Credito");
             System.out.println("8. Atender cliente en Informaciones");
             System.out.println("9. Liberar puesto de atención");
-            System.out.println("10. Mostrar colas");
-            System.out.println("11. Resumen del dia");
+            System.out.println("10. Ordenar clientes por nombre");
+            System.out.println("11. Mostrar colas");
+            System.out.println("12. Resumen del dia");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
@@ -84,9 +85,27 @@ public class Main {
                     System.out.println(banco.finalizarAtencion(tipoPuesto, numeroPuesto));
                     break;
                 case 10:
+                    System.out.println("\n--- Clientes ordenados por nombre ---");
+                    System.out.println("\n--- Clientes ordenados de Caja 1 ---");
+                    banco.caja1.mostrarOrdenados();
+
+                    System.out.println("\n--- Clientes ordenados de Caja 2 ---");
+                    banco.caja2.mostrarOrdenados();
+
+                    System.out.println("\n--- Clientes ordenados de Plataforma ---");
+                    banco.plataforma.mostrarOrdenados();
+
+                    System.out.println("\n--- Clientes ordenados de Crédito ---");
+                    banco.credito.mostrarOrdenados();
+
+                    System.out.println("\n--- Clientes ordenados de Informaciones ---");
+                    banco.informaciones.mostrarOrdenados();
+                    break;
+
+                case 11:
                     banco.mostrarColas();
                     break;
-                case 11:
+                case 12:
                     banco.imprimirResumen();
                     break;
 

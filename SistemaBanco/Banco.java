@@ -1,20 +1,18 @@
+import java.util.List;
 
 public class Banco {
     public ColaAtencion caja1;
     public ColaAtencion caja2;
-    private ColaAtencion plataforma;
-    private ColaAtencion credito;
-    private ColaAtencion informaciones;
+    public ColaAtencion plataforma;
+    public ColaAtencion credito;
+    public ColaAtencion informaciones;
+
+
 
      // Contadores de atención
-    private int atendidosCaja = 0;
-    private int preferencialesCaja = 0;
-    private int atendidosPlataforma = 0;
-    private int preferencialesPlataforma = 0;
-    private int atendidosCredito = 0;
-    private int preferencialesCredito = 0;
-    private int atendidosInformaciones = 0;
-    private int preferencialesInformaciones = 0;
+    private int[] atendidos = new int[4];        // 0=caja, 1=plataforma, 2=credito, 3=informaciones
+    private int[] preferenciales = new int[4];
+
 
     public Banco() {
         caja1 = new ColaAtencion();
@@ -22,6 +20,20 @@ public class Banco {
         plataforma = new ColaAtencion();
         credito = new ColaAtencion();
         informaciones = new ColaAtencion();
+
+        caja1.encolar(new Cliente("Ana", false));
+        caja1.encolar(new Cliente("Carlos", true));
+
+        caja2.encolar(new Cliente("Beatriz", false));
+
+        plataforma.encolar(new Cliente("David", true));
+        plataforma.encolar(new Cliente("Elena", false));
+
+        credito.encolar(new Cliente("Fernando", false));
+
+        informaciones.encolar(new Cliente("Gabriela", false));
+        informaciones.encolar(new Cliente("Hugo", true));
+
 
         }
     
@@ -53,8 +65,8 @@ public class Banco {
             c = caja2.desencolar();
         }
         if (c != null) {
-            atendidosCaja++;
-            if (c.preferencial) preferencialesCaja++;
+            atendidos[0]++;
+            if (c.preferencial) preferenciales[0]++;
             return "Atendiendo en Caja: " + numCaja + "[CA-" + c.numero +"] "+ c.nombre + 
                    (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
         }
@@ -64,58 +76,100 @@ public class Banco {
     public String atenderPlataforma() {
         Cliente c = plataforma.desencolar();
         if (c != null) {
-            atendidosPlataforma++;
-            if (c.preferencial) preferencialesPlataforma++;
+            atendidos[1]++;
+            if (c.preferencial) preferenciales[1]++;
             return "Atendiendo en Plataforma: " + "[PT-" + c.numero +"] "+ c.nombre + 
                    (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
         }
         return "No hay clientes en Plataforma.";
     }
 
-     public String atenderCredito() {
-        Cliente c = plataforma.desencolar();
-        if (c != null) {
-            atendidosCredito++;
-            if (c.preferencial) preferencialesCredito++;
-            return "Atendiendo en Plataforma: " + "[CR-" + c.numero +"] "+ c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
-        }
-        return "No hay clientes en Creadito.";
+    public String atenderCredito() {
+    Cliente c = credito.desencolar();
+    if (c != null) {
+        atendidos[2]++;
+        if (c.preferencial) preferenciales[2]++;
+        return "Atendiendo en Crédito: [CR-" + c.numero + "] " + c.nombre +
+               (c.preferencial ? " (Preferencial)" : " (Corriente)");
     }
+    return "No hay clientes en Crédito.";
+}
 
-     public String atenderInformaciones() {
-        Cliente c = plataforma.desencolar();
-        if (c != null) {
-            atendidosInformaciones++;
-            if (c.preferencial) preferencialesInformaciones++;
-            return "Atendiendo en Plataforma: " + "[IF-" + c.numero +"] "+ c.nombre + 
-                   (c.preferencial ? " (Preferencial)" : " (Corriente)"); // ?-> es como un if para mostrar si es preferencial o no
-        }
-        return "No hay clientes en Creadito.";
+    public String atenderInformaciones() {
+    Cliente c = informaciones.desencolar();
+    if (c != null) {
+        atendidos[3]++;
+        if (c.preferencial) preferenciales[3]++;
+        return "Atendiendo en Informaciones: [IF-" + c.numero + "] " + c.nombre +
+               (c.preferencial ? " (Preferencial)" : " (Corriente)");
     }
+    return "No hay clientes en Informaciones.";
+}
+
 
     public String finalizarAtencion(String tipoPuesto, int numeroPuesto) {
         return "Puesto " + tipoPuesto + " número " + numeroPuesto + " liberado.";
     }
     public void mostrarColas() {
-        System.out.println("Cola de Caja 1:");
-        caja1.mostrarCola();
-        System.out.println("Cola de Caja 2:");
-        caja2.mostrarCola();
-        System.out.println("\nCola de Plataforma:");
-        plataforma.mostrarCola();
-        System.out.println("\nCola de Credito:");
-        credito.mostrarCola();
-        System.out.println("\nCola de Informaciones:");
-        informaciones.mostrarCola();
-    }
+    System.out.println("Cola de Caja 1:");
+    caja1.mostrarCola();
+    System.out.println("\nCola de Caja 2:");
+    caja2.mostrarCola();
+    System.out.println("\nCola de Plataforma:");
+    plataforma.mostrarCola();
+    System.out.println("\nCola de Crédito:");
+    credito.mostrarCola();
+    System.out.println("\nCola de Informaciones:");
+    informaciones.mostrarCola();
+}
+
     public void imprimirResumen() {
-        System.out.println("\n Resumen del día:");
-        System.out.println("- Caja atendió " + atendidosCaja + " clientes (" + preferencialesCaja + " preferenciales).");
-        System.out.println("- Plataforma atendió " + atendidosPlataforma + " clientes (" + preferencialesPlataforma + " preferenciales).");
-        System.out.println("- Credito atendió " + atendidosCredito + " clientes (" + preferencialesCredito + " preferenciales).");
-        System.out.println("- Informaciones atendió " + atendidosInformaciones + " clientes (" + preferencialesInformaciones + " preferenciales).");
-        System.out.println("════════════════════════════════════");
+    String[] nombres = {"Caja", "Plataforma", "Crédito", "Informaciones"};
+    imprimirResumenRecursivo(nombres, 0);
+    System.out.println("════════════════════════════════════");
+}
+
+    public void imprimirResumenRecursivo(String[] nombres, int index) {
+    if (index >= nombres.length) return; // caso base (ya recorrimos todos)
+
+    System.out.println("- " + nombres[index] + " atendió " + atendidos[index] + 
+                       " clientes (" + preferenciales[index] + " preferenciales).");
+
+    imprimirResumenRecursivo(nombres, index + 1); // llamada recursiva
+}
+
+
+    public class ordenadorClientes {
+
+    public static void quickSort(List<Cliente> lista, int low, int high) {
+        if (low < high) {
+            int pi = partition(lista, low, high);
+            quickSort(lista, low, pi - 1);
+            quickSort(lista, pi + 1, high);
+        }
     }
+
+    private static int partition(List<Cliente> lista, int low, int high) {
+        String pivot = lista.get(high).getNombre();
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            if (lista.get(j).getNombre().compareToIgnoreCase(pivot) <= 0) {
+                i++;
+                // intercambiar
+                Cliente temp = lista.get(i);
+                lista.set(i, lista.get(j));
+                lista.set(j, temp);
+            }
+        }
+
+        Cliente temp = lista.get(i + 1);
+        lista.set(i + 1, lista.get(high));
+        lista.set(high, temp);
+
+        return i + 1;
+    }
+}
+
 }
 
