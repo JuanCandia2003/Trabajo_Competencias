@@ -108,8 +108,9 @@ public class Banco {
 
 
     public String finalizarAtencion(String tipoPuesto, int numeroPuesto) {
-        return "Puesto " + tipoPuesto + " número " + numeroPuesto + " liberado.";
+    return "Puesto " + tipoPuesto + " número " + numeroPuesto + " liberado.";
     }
+
     public void mostrarColas() {
     System.out.println("Cola de Caja 1:");
     caja1.mostrarCola();
@@ -139,37 +140,8 @@ public class Banco {
 }
 
 
-    public class ordenadorClientes {
-
-    public static void quickSort(List<Cliente> lista, int low, int high) {
-        if (low < high) {
-            int pi = partition(lista, low, high);
-            quickSort(lista, low, pi - 1);
-            quickSort(lista, pi + 1, high);
-        }
-    }
-
-    private static int partition(List<Cliente> lista, int low, int high) {
-        String pivot = lista.get(high).getNombre();
-        int i = (low - 1);
-
-        for (int j = low; j < high; j++) {
-            if (lista.get(j).getNombre().compareToIgnoreCase(pivot) <= 0) {
-                i++;
-                // intercambiar
-                Cliente temp = lista.get(i);
-                lista.set(i, lista.get(j));
-                lista.set(j, temp);
-            }
-        }
-
-        Cliente temp = lista.get(i + 1);
-        lista.set(i + 1, lista.get(high));
-        lista.set(high, temp);
-
-        return i + 1;
-    }
+    
 }
 
-}
+
 
