@@ -1,4 +1,3 @@
-import java.util.List;
 
 public class Banco {
     public ColaAtencion caja1;
