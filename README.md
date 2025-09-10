@@ -249,53 +249,63 @@ Trabajo_Competencias/
 ```mermaid
 classDiagram
 direction TB
-    class Banco {
-	    -caja1 : ColaAtencion
-	    -caja2 : ColaAtencion
-	    -plataforma : ColaAtencion
-	    -creditos : ColaAtencion
-	    -informaciones : ColaAtencion
-	    +agregarClienteCaja(cliente: Cliente, numCaja:int) : void
-	    +agregarClientePlataforma(cliente: Cliente) : void
-	    +agregarClienteCredito(cliente: Cliente) : void
-	    +agregarClienteInformaciones(cliente: Cliente) : void
-	    +atenderCaja(numCaja:int) : String
-	    +atenderPlataforma() : String
-	    +atenderCredito() : String
-	    +atenderInformaciones() : String
-	    +finalizarAtencion(tipoPuesto:String, numeroPuesto:int) : String
-	    +imprimirResumen() : void
-    }
 
     class ColaAtencion {
-	    -frentePref : Nodo
-	    -finPref : Nodo
-	    -frenteCorr : Nodo
-	    -finCorr : Nodo
-	    +encolar(cliente: Cliente) : void
-	    +desencolar() : Cliente
-	    +estaVacia() : boolean
-	    +mostrarCola() : void
+        -frentePref : Nodo
+        -finPref : Nodo
+        -frenteCorr : Nodo
+        -finCorr : Nodo
+        +encolar(cliente: Cliente) : void
+        +desencolar() : Cliente
+        +estaVacia() : boolean
+        +mostrarCola() : void
+        +mostrarOrdenados() : void
+        +aLista() : List<Cliente>
+        +ordenarClientes() : List<Cliente>
+        -quickSort(lista: List<Cliente>, low:int, high:int) : void
+        -partition(lista: List<Cliente>, low:int, high:int) : int
     }
 
     class Nodo {
-	    -cliente : Cliente
-	    -siguiente : Nodo
+        -cliente : Cliente
+        -siguiente : Nodo
     }
 
     class Cliente {
-	    -nombre : String
-	    -preferencial : boolean
-	    -numero : int
-	    -contadorTickets : static int
+        -nombre : String
+        -preferencial : boolean
+        -numero : int
+        -contadorTickets : static int
+        +getNombre() : String
+    }
+
+    class Banco {
+        -caja1 : ColaAtencion
+        -caja2 : ColaAtencion
+        -plataforma : ColaAtencion
+        -creditos : ColaAtencion
+        -informaciones : ColaAtencion
+        +agregarClienteCaja(cliente: Cliente, numCaja:int) : void
+        +agregarClientePlataforma(cliente: Cliente) : void
+        +agregarClienteCredito(cliente: Cliente) : void
+        +agregarClienteInformaciones(cliente: Cliente) : void
+        +atenderCaja(numCaja:int) : String
+        +atenderPlataforma() : String
+        +atenderCredito() : String
+        +atenderInformaciones() : String
+        +finalizarAtencion(tipoPuesto:String, numeroPuesto:int) : String
+        +mostarColas() : void
+        +imprimirResumen() : void
+        +imprimirResumenRecursivo(nombres:String[], index:int) : void
     }
 
     class Main {
-	    +main(args:String[]) : void
+        +main(args:String[]) : void
     }
 
     Banco o-- ColaAtencion : tiene
     ColaAtencion *-- Nodo : contiene
     Nodo --> Cliente : contiene
     Main ..> Banco : usa
+
 ```
