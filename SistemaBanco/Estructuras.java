@@ -83,44 +83,64 @@ class ColaAtencion {
         return lista;
     }
 
-    // QuickSort aplicado a la lista de clientes
-    public List<Cliente> ordenarClientes() {
+    // Heapsort aplicado a la lista de clientes
+    public List<Cliente> ordenarCliente() {
     List<Cliente> lista = aLista();
-    quickSort(lista, 0, lista.size() - 1);
+    heapSort(lista);
     return lista;
+}
+
+private void heapSort(List<Cliente> lista) {
+    int n = lista.size();
+
+    // Construir el heap (reordenar lista)
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(lista, n, i);
     }
 
-    private void quickSort(List<Cliente> lista, int low, int high) {
-        if (low < high) {
-            int pi = partition(lista, low, high);
-            quickSort(lista, low, pi - 1);
-            quickSort(lista, pi + 1, high);
-        }
+    // Extraer elementos del heap uno por uno
+    for (int i = n - 1; i > 0; i--) {
+        // Intercambiar el primero (máximo) con el último
+        Cliente temp = lista.get(0);
+        lista.set(0, lista.get(i));
+        lista.set(i, temp);
+
+        // Llamar heapify al heap reducido
+        heapify(lista, i, 0);
+    }
+}
+
+private void heapify(List<Cliente> lista, int n, int i) {
+    int largest = i;      // Inicializar el mayor como raíz
+    int left = 2 * i + 1; // hijo izquierdo
+    int right = 2 * i + 2;// hijo derecho
+
+    // Comparar hijos con el mayor (por nombre)
+    if (left < n && lista.get(left).getNombre()
+            .compareToIgnoreCase(lista.get(largest).getNombre()) > 0) {
+        largest = left;
     }
 
-    private int partition(List<Cliente> lista, int low, int high) {
-        String pivot = lista.get(high).getNombre();
-        int i = (low - 1);
-
-        for (int j = low; j < high; j++) {
-            if (lista.get(j).getNombre().compareToIgnoreCase(pivot) <= 0) {
-                i++;
-                Cliente temp = lista.get(i);
-                lista.set(i, lista.get(j));
-                lista.set(j, temp);
-            }
-        }
-
-        Cliente temp = lista.get(i + 1);
-        lista.set(i + 1, lista.get(high));
-        lista.set(high, temp);
-
-        return i + 1;
+    if (right < n && lista.get(right).getNombre()
+            .compareToIgnoreCase(lista.get(largest).getNombre()) > 0) {
+        largest = right;
     }
+
+    // Si el mayor no es la raíz
+    if (largest != i) {
+        Cliente swap = lista.get(i);
+        lista.set(i, lista.get(largest));
+        lista.set(largest, swap);
+
+        // Recursivamente heapify el subárbol afectado
+        heapify(lista, n, largest);
+    }
+}
+
 
     // Mostrar clientes ordenados
     public void mostrarOrdenados() {
-        List<Cliente> lista = ordenarClientes();
+        List<Cliente> lista = ordenarCliente();
         for (Cliente c : lista) {
             System.out.println(c.getNombre() + " [Ficha: " + c.numero + "]" +
                                (c.preferencial ? " (Preferencial)" : " (Corriente)"));

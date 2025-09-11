@@ -263,8 +263,8 @@ direction TB
         +mostrarOrdenados() : void
         +aLista() : List<Cliente>
         +ordenarClientes() : List<Cliente>
-        -quickSort(lista: List<Cliente>, low:int, high:int) : void
-        -partition(lista: List<Cliente>, low:int, high:int) : int
+        -heapSort(lista: List<Cliente>) : void 
+        -heapify(lista: List<Cliente>, int n, int i) : void
     }
 
     class Nodo {
@@ -310,8 +310,55 @@ direction TB
     Main ..> Banco : usa
 
 ```
+---
 
 ## 2.3. Diagrama de flujo 
+Se mostrara el diagrama de flujo de dos clases: Banco y ColaAtencion
+
+---
+* Clase Banco
+  ``` mermaid
+  flowchart TD
+    A[Inicio] --> B[Agregar cliente]
+    B --> C{¿A qué área va?}
+    C -->|Caja 1 o Caja 2| D[Encolar en Caja]
+    C -->|Plataforma| E[Encolar en Plataforma]
+    C -->|Crédito| F[Encolar en Crédito]
+    C -->|Informaciones| G[Encolar en Informaciones]
+
+    D --> H[Atender en Caja]
+    E --> I[Atender en Plataforma]
+    F --> J[Atender en Crédito]
+    G --> K[Atender en Informaciones]
+
+    H --> L[Actualizar contadores Caja]
+    I --> M[Actualizar contadores Plataforma]
+    J --> N[Actualizar contadores Crédito]
+    K --> O[Actualizar contadores Informaciones]
+
+    L --> P[Mostrar colas]
+    M --> P
+    N --> P
+    O --> P
+
+    P --> Q[Imprimir Resumen Recursivo]
+    Q --> R[Fin]
+
+```
+
+  En este flujo se representa:
+
+  * Se agrega cliente y se decide a qué área va.
+
+  * Se encola en la cola correspondiente.
+
+  * Cuando se atiende, se actualizan contadores.
+
+  * Se pueden mostrar las colas.
+
+  * El final del día, se imprime el resumen usando recursividad.
+
+* Clase ColaAtencion
 ```mermaid
 flowchart TD
 
@@ -343,3 +390,45 @@ Q --> F
 
 F --> R[Fin]
 ```
+---
+Inicio (A)
+El sistema arranca y espera una operación.
+
+Selección de operación (B)
+El usuario o el sistema decide qué acción realizar:
+
+  * Encolar (agregar cliente)
+
+    Si se elige Encolar, se evalúa: ¿El cliente es preferencial? (C)
+
+    Sí → se agrega al final de la cola de preferenciales (D).
+
+    No → se agrega al final de la cola de corrientes (E).
+
+  * Desencolar (atender cliente)
+
+    Si se elige Desencolar, se revisa: ¿la cola de preferenciales está vacía? (G)
+
+    Sí hay clientes → se atiende uno preferencial (H) y se actualiza el puntero frentePref (L).
+
+    No hay clientes preferenciales → se revisa la cola de corrientes (I).
+
+    Sí hay → se atiende cliente corriente (J) y se actualiza frenteCorr (M).
+
+  No hay → la cola está vacía (K).
+  * MostrarCola
+  
+    Recorre la cola de preferenciales y corrientes (N), usando recursividad para listar clientes.
+    Luego vuelve al estado de cola (F)
+
+  * OrdenarClientes
+
+
+    Si se elige OrdenarClientes, primero se convierte la cola a lista (O).
+
+    Luego se aplica HeapSort sobre esa lista (P).
+
+    Se obtiene la lista ordenada (Q).
+
+    Y vuelve el estado de cola (F).
+
