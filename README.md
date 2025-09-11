@@ -313,6 +313,77 @@ direction TB
 ---
 
 ## 2.3. Diagrama de flujo 
+* Diagrama de flujo general del programa
+  
+``` mermaid  
+flowchart TD
+    A([Inicio]) --> B{Seleccionar opción}
+    
+    %% Opciones del menú
+    B -->|1. Agregar cliente a Caja| C[Ingresar nombre y preferencial]
+    C --> D["Elegir Caja (1 o 2)"]
+    D --> E[Agregar a Cola de Caja]
+    E --> B
+    
+    B -->|2. Agregar cliente a Plataforma| F[Ingresar nombre y preferencial]
+    F --> G[Agregar a Cola de Plataforma]
+    G --> B
+    
+    B -->|3. Agregar cliente a Crédito| H[Ingresar nombre y preferencial]
+    H --> I[Agregar a Cola de Crédito]
+    I --> B
+    
+    B -->|4. Agregar cliente a Informaciones| J[Ingresar nombre y preferencial]
+    J --> K[Agregar a Cola de Informaciones]
+    K --> B
+    
+    %% Atender clientes
+    B -->|5. Atender en Caja| L["Seleccionar Caja 1 o 2"]
+    L --> M{Cola preferencial vacía?}
+    M -->|No| N[Atender cliente preferencial]
+    M -->|Sí| O{Cola corriente vacía?}
+    O -->|No| P[Atender cliente corriente]
+    O -->|Sí| Q[No hay clientes en Caja]
+    N --> B
+    P --> B
+    Q --> B
+    
+    B -->|6. Atender Plataforma| R{Cola preferencial vacía?}
+    R -->|No| S[Atender cliente preferencial]
+    R -->|Sí| T{Cola corriente vacía?}
+    T -->|No| U[Atender cliente corriente]
+    T -->|Sí| V[No hay clientes en Plataforma]
+    S --> B
+    U --> B
+    V --> B
+    
+    B -->|7. Atender Crédito| W[Proceso similar a Caja]
+    W --> B
+    
+    B -->|8. Atender Informaciones| X[Proceso similar a Caja]
+    X --> B
+    
+    %% Finalizar puesto
+    B -->|9. Liberar puesto| Y[Ingresar tipo y número de puesto]
+    Y --> Z[Puesto liberado]
+    Z --> B
+    
+    %% Ordenar clientes
+    B -->|10. Ordenar clientes por nombre| AA[HeapSort en lista de clientes]
+    AA --> AB[Mostrar clientes ordenados]
+    AB --> B
+    
+    %% Mostrar colas
+    B -->|11. Mostrar colas| AC[Imprimir colas de cada área]
+    AC --> B
+    
+    %% Resumen del día
+    B -->|12. Resumen del día| AD[Imprimir cantidad de clientes atendidos]
+    AD --> B
+    
+    B -->|0. Salir| AE([Fin])
+```
+---
 Se mostrara el diagrama de flujo de dos clases: Banco y ColaAtencion
 
 ---
@@ -343,10 +414,13 @@ Se mostrara el diagrama de flujo de dos clases: Banco y ColaAtencion
 
     P --> Q[Imprimir Resumen Recursivo]
     Q --> R[Fin]
+  ```
 
-```
+---
 
-  En este flujo se representa:
+
+
+En este flujo se representa:
 
   * Se agrega cliente y se decide a qué área va.
 
@@ -359,7 +433,10 @@ Se mostrara el diagrama de flujo de dos clases: Banco y ColaAtencion
   * El final del día, se imprime el resumen usando recursividad.
 
 * Clase ColaAtencion
-```mermaid
+
+---
+
+``` mermaid
 flowchart TD
 
 A[Inicio] --> B{Operación}
@@ -409,13 +486,13 @@ El usuario o el sistema decide qué acción realizar:
 
     Si se elige Desencolar, se revisa: ¿la cola de preferenciales está vacía? (G)
 
-    Sí hay clientes → se atiende uno preferencial (H) y se actualiza el puntero frentePref (L).
+    Sí hay clientes -> se atiende uno preferencial (H) y se actualiza el puntero frentePref (L).
 
-    No hay clientes preferenciales → se revisa la cola de corrientes (I).
+    No hay clientes preferenciales -> se revisa la cola de corrientes (I).
 
-    Sí hay → se atiende cliente corriente (J) y se actualiza frenteCorr (M).
+    Sí hay -> se atiende cliente corriente (J) y se actualiza frenteCorr (M).
 
-  No hay → la cola está vacía (K).
+    No hay -> la cola está vacía (K).
   * MostrarCola
   
     Recorre la cola de preferenciales y corrientes (N), usando recursividad para listar clientes.
