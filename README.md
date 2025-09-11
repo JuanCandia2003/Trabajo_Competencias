@@ -313,75 +313,42 @@ direction TB
 ---
 
 ## 2.3. Diagrama de flujo 
-* Diagrama de flujo general del programa
+* Diagrama de flujo general del menu principal del programa
   
 ``` mermaid  
 flowchart TD
-    A([Inicio]) --> B{Seleccionar opción}
-    
-    %% Opciones del menú
-    B -->|1. Agregar cliente a Caja| C[Ingresar nombre y preferencial]
-    C --> D["Elegir Caja (1 o 2)"]
-    D --> E[Agregar a Cola de Caja]
-    E --> B
-    
-    B -->|2. Agregar cliente a Plataforma| F[Ingresar nombre y preferencial]
-    F --> G[Agregar a Cola de Plataforma]
-    G --> B
-    
-    B -->|3. Agregar cliente a Crédito| H[Ingresar nombre y preferencial]
-    H --> I[Agregar a Cola de Crédito]
+    A([Inicio]) --> B[Mostrar menú]
+    B --> C[Leer opción]
+
+    C -->|1| D[Agregar cliente a Caja]
+    D --> D1[Ingresar nombre y preferencial]
+    D1 --> D2[Seleccionar caja 1 o 2]
+    D2 --> B
+
+    C -->|2| E[Agregar cliente a Plataforma]
+    E --> E1[Ingresar nombre y preferencial]
+    E1 --> B
+
+    C -->|3| F[Agregar cliente a Crédito]
+    F --> F1[Ingresar nombre y preferencial]
+    F1 --> B
+
+    C -->|4| G[Agregar cliente a Informaciones]
+    G --> G1[Ingresar nombre y preferencial]
+    G1 --> B
+
+    C -->|5| H[Atender cliente en Caja]
+    H --> H1[Seleccionar caja 1 o 2]
+    H1 --> B
+
+    C -->|6| I[Atender cliente en Plataforma]
     I --> B
-    
-    B -->|4. Agregar cliente a Informaciones| J[Ingresar nombre y preferencial]
-    J --> K[Agregar a Cola de Informaciones]
-    K --> B
-    
-    %% Atender clientes
-    B -->|5. Atender en Caja| L["Seleccionar Caja 1 o 2"]
-    L --> M{Cola preferencial vacía?}
-    M -->|No| N[Atender cliente preferencial]
-    M -->|Sí| O{Cola corriente vacía?}
-    O -->|No| P[Atender cliente corriente]
-    O -->|Sí| Q[No hay clientes en Caja]
-    N --> B
-    P --> B
-    Q --> B
-    
-    B -->|6. Atender Plataforma| R{Cola preferencial vacía?}
-    R -->|No| S[Atender cliente preferencial]
-    R -->|Sí| T{Cola corriente vacía?}
-    T -->|No| U[Atender cliente corriente]
-    T -->|Sí| V[No hay clientes en Plataforma]
-    S --> B
-    U --> B
-    V --> B
-    
-    B -->|7. Atender Crédito| W[Proceso similar a Caja]
-    W --> B
-    
-    B -->|8. Atender Informaciones| X[Proceso similar a Caja]
-    X --> B
-    
-    %% Finalizar puesto
-    B -->|9. Liberar puesto| Y[Ingresar tipo y número de puesto]
-    Y --> Z[Puesto liberado]
-    Z --> B
-    
-    %% Ordenar clientes
-    B -->|10. Ordenar clientes por nombre| AA[HeapSort en lista de clientes]
-    AA --> AB[Mostrar clientes ordenados]
-    AB --> B
-    
-    %% Mostrar colas
-    B -->|11. Mostrar colas| AC[Imprimir colas de cada área]
-    AC --> B
-    
-    %% Resumen del día
-    B -->|12. Resumen del día| AD[Imprimir cantidad de clientes atendidos]
-    AD --> B
-    
-    B -->|0. Salir| AE([Fin])
+
+    C -->|7| J[Atender cliente en Crédito]
+    J --> B
+
+    C -->|8| K[Atender cliente en Informaciones]
+
 ```
 ---
 Se mostrara el diagrama de flujo de dos clases: Banco y ColaAtencion
